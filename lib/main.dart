@@ -158,7 +158,6 @@ class _CalculadoraState extends State<Calculadora> {
           ),
           Expanded(
             child: Container(
-              height: 120,
               alignment: Alignment.center,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
