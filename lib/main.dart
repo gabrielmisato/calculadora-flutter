@@ -119,6 +119,10 @@ class _CalculadoraState extends State<Calculadora> {
 
   void _inputDecimal() {
     setState(() {
+      if (wipeDisplay && displayText != '0') {
+        displayText = '0.';
+        wipeDisplay = false;
+      }
       if (!displayText.contains('.')) {
         displayText += '.';
       }
