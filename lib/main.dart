@@ -60,6 +60,9 @@ class _CalculadoraState extends State<Calculadora> {
 
   void _inputOperator(String op) {
     setState(() {
+      if (displayText == 'Error') {
+        return;
+      }
       num1 = double.parse(displayText);
       operator = op;
       displayText = '0';
@@ -69,6 +72,9 @@ class _CalculadoraState extends State<Calculadora> {
 
   void _calculate() {
     setState(() {
+      if (displayText == 'Error') {
+        return;
+      }
       num2 = double.parse(displayText);
 
       switch (operator) {
@@ -104,13 +110,16 @@ class _CalculadoraState extends State<Calculadora> {
       if (displayText == '0') {
         return;
       }
-      displayText = (double.parse(displayText) * -1).toString();
+      result = (double.parse(displayText) * -1);
+      displayText = _formatResult(result);
     });
   }
 
   void _percentage() {
     setState(() {
       if (displayText == '0') {
+        return;
+      } else if (displayText == 'Error') {
         return;
       }
       displayText = (double.parse(displayText) / 100).toString();
