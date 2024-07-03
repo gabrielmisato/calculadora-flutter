@@ -205,12 +205,15 @@ class _CalculadoraState extends State<Calculadora> {
           Container(
             height: MediaQuery.of(context).size.height * 0.35,
             alignment: Alignment.bottomRight,
-            child: Text(
-              _displayText,
-              maxLines: 1,
-              style: const TextStyle(
-                fontSize: 64,
-                color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                _displayText,
+                maxLines: 1,
+                style: const TextStyle(
+                  fontSize: 56,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),
@@ -258,7 +261,7 @@ class _CalculadoraState extends State<Calculadora> {
                               const Color.fromARGB(255, 160, 160, 160),
                           textColor: Colors.black),
                       CalculadoraBtn(
-                          text: '/',
+                          text: '÷',
                           onPressed: () => _inputOperator('/'),
                           backgroundColor:
                               const Color.fromARGB(255, 255, 159, 10),
@@ -287,7 +290,7 @@ class _CalculadoraState extends State<Calculadora> {
                               const Color.fromARGB(255, 51, 51, 51),
                           textColor: Colors.white),
                       CalculadoraBtn(
-                          text: '*',
+                          text: 'x',
                           onPressed: () => _inputOperator('*'),
                           backgroundColor:
                               const Color.fromARGB(255, 255, 159, 10),

@@ -21,13 +21,13 @@ class CalculadoraBtn extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          fixedSize: const Size(80, 80),
+          fixedSize: const Size(72, 72),
           backgroundColor: backgroundColor,
         ),
         child: Text(
           text,
           style: TextStyle(
-            fontSize: 24,
+            fontSize: 16,
             color: textColor,
           ),
         ),
