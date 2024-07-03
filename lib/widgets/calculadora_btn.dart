@@ -17,11 +17,14 @@ class CalculadoraBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8),
+      padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          fixedSize: const Size(72, 72),
+          fixedSize: Size(
+            MediaQuery.of(context).size.width * 0.2,
+            MediaQuery.of(context).size.height * 0.1,
+          ),
           backgroundColor: backgroundColor,
         ),
         child: Text(

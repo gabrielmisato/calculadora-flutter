@@ -38,7 +38,7 @@ class _CalculadoraState extends State<Calculadora> {
   String _memoryOperator = '';
 
   bool _usedOperator = false;
-  bool _newNumber = true;
+  bool _newNumber = false;
 
   void _clear() {
     setState(() {
@@ -49,7 +49,7 @@ class _CalculadoraState extends State<Calculadora> {
       _operator = '';
       _memoryOperator = '';
       _usedOperator = false;
-      _newNumber = true;
+      _newNumber = false;
     });
   }
 
@@ -171,6 +171,7 @@ class _CalculadoraState extends State<Calculadora> {
       }
       if (!_displayText.contains('.')) {
         _displayText += '.';
+        _newNumber = false;
       }
     });
   }
@@ -203,10 +204,12 @@ class _CalculadoraState extends State<Calculadora> {
       body: Column(
         children: <Widget>[
           Container(
-            height: MediaQuery.of(context).size.height * 0.35,
+            height: MediaQuery.of(context).size.height * 0.3,
             alignment: Alignment.bottomRight,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.04,
+              ),
               child: Text(
                 _displayText,
                 maxLines: 1,
@@ -227,7 +230,9 @@ class _CalculadoraState extends State<Calculadora> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.04,
+                        ),
                         child: TextButton(
                           onPressed: _deleteLastDigit,
                           child: const Icon(
@@ -359,11 +364,16 @@ class _CalculadoraState extends State<Calculadora> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(8),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.02,
+                        ),
                         child: ElevatedButton(
                           onPressed: () => _inputDigit('0'),
                           style: ElevatedButton.styleFrom(
-                            fixedSize: const Size(160, 80),
+                            fixedSize: Size(
+                              MediaQuery.of(context).size.width * 0.45,
+                              MediaQuery.of(context).size.height * 0.1,
+                            ),
                             backgroundColor:
                                 const Color.fromARGB(255, 51, 51, 51),
                           ),
