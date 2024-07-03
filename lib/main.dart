@@ -38,7 +38,7 @@ class _CalculadoraState extends State<Calculadora> {
   String _memoryOperator = '';
 
   bool _usedOperator = false;
-  bool _newNumber = false;
+  bool _newNumber = true;
 
   void _clear() {
     setState(() {
@@ -49,7 +49,7 @@ class _CalculadoraState extends State<Calculadora> {
       _operator = '';
       _memoryOperator = '';
       _usedOperator = false;
-      _newNumber = false;
+      _newNumber = true;
     });
   }
 
@@ -69,7 +69,7 @@ class _CalculadoraState extends State<Calculadora> {
       if (_displayText == 'Error') {
         return;
       }
-      _num1 = double.parse(_displayText);
+      _num1 = double.parse(_displayText.replaceAll(',', '.'));
       _operator = op;
       _displayText = '0';
       _usedOperator = true;
@@ -84,7 +84,7 @@ class _CalculadoraState extends State<Calculadora> {
       }
 
       if (!_usedOperator) {
-        _num1 = double.parse(_displayText);
+        _num1 = double.parse(_displayText.replaceAll(',', '.'));
         switch (_memoryOperator) {
           case '+':
             _result = _num1 + _num2;
@@ -108,7 +108,7 @@ class _CalculadoraState extends State<Calculadora> {
             break;
         }
       } else {
-        _num2 = double.parse(_displayText);
+        _num2 = double.parse(_displayText.replaceAll(',', '.'));
         switch (_operator) {
           case '+':
             _result = _num1 + _num2;
@@ -166,11 +166,11 @@ class _CalculadoraState extends State<Calculadora> {
   void _inputDecimal() {
     setState(() {
       if (_newNumber && _displayText != '0') {
-        _displayText = '0.';
+        _displayText = '0,';
         _newNumber = false;
       }
-      if (!_displayText.contains('.')) {
-        _displayText += '.';
+      if (!_displayText.contains(',')) {
+        _displayText += ',';
         _newNumber = false;
       }
     });
@@ -189,9 +189,9 @@ class _CalculadoraState extends State<Calculadora> {
 
   String _formatResult(double result) {
     if (_result % 1 == 0) {
-      return _result.toInt().toString();
+      return _result.toInt().toString().replaceAll('.', ',');
     } else {
-      return _result.toString();
+      return _result.toString().replaceAll('.', ',');
     }
   }
 
@@ -390,7 +390,7 @@ class _CalculadoraState extends State<Calculadora> {
                         ),
                       ),
                       CalculadoraBtn(
-                          text: '.',
+                          text: ',',
                           onPressed: _inputDecimal,
                           backgroundColor:
                               const Color.fromARGB(255, 51, 51, 51),
