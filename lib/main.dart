@@ -28,121 +28,171 @@ class Calculadora extends StatefulWidget {
 }
 
 class _CalculadoraState extends State<Calculadora> {
-  String displayText = '0';
+  String _displayText = '0';
 
-  double num1 = 0;
-  double num2 = 0;
-  double result = 0;
-  String operator = '';
+  double _num1 = 0;
+  double _num2 = 0;
+  double _result = 0;
 
-  bool wipeDisplay = false;
+  String _operator = '';
+  String _memoryOperator = '';
+
+  bool _usedOperator = false;
+  bool _newNumber = true;
 
   void _clear() {
     setState(() {
-      displayText = '0';
-      num1 = 0;
-      num2 = 0;
-      operator = '';
-      wipeDisplay = false;
+      _displayText = '0';
+      _num1 = 0;
+      _num2 = 0;
+      _result = 0;
+      _operator = '';
+      _memoryOperator = '';
+      _usedOperator = false;
+      _newNumber = true;
     });
   }
 
   void _inputDigit(String digit) {
     setState(() {
-      if (wipeDisplay) {
-        displayText = digit;
-        wipeDisplay = false;
+      if (_newNumber) {
+        _displayText = digit;
+        _newNumber = false;
       } else {
-        displayText = displayText == '0' ? digit : displayText + digit;
+        _displayText = _displayText == '0' ? digit : _displayText + digit;
       }
     });
   }
 
   void _inputOperator(String op) {
     setState(() {
-      if (displayText == 'Error') {
+      if (_displayText == 'Error') {
         return;
       }
-      num1 = double.parse(displayText);
-      operator = op;
-      displayText = '0';
-      wipeDisplay = true;
+      _num1 = double.parse(_displayText);
+      _operator = op;
+      _displayText = '0';
+      _usedOperator = true;
+      _newNumber = true;
     });
   }
 
   void _calculate() {
     setState(() {
-      if (displayText == 'Error') {
+      if (_displayText == 'Error') {
         return;
       }
-      num2 = double.parse(displayText);
 
-      switch (operator) {
-        case '+':
-          result = num1 + num2;
-          displayText = _formatResult(result);
-          break;
-        case '-':
-          result = num1 - num2;
-          displayText = _formatResult(result);
-          break;
-        case '*':
-          result = num1 * num2;
-          displayText = _formatResult(result);
-          break;
-        case '/':
-          if (num2 != 0) {
-            result = num1 / num2;
-            displayText = _formatResult(result);
-          } else {
-            displayText = 'Error';
-          }
-          break;
+      if (!_usedOperator) {
+        _num1 = double.parse(_displayText);
+        switch (_memoryOperator) {
+          case '+':
+            _result = _num1 + _num2;
+            _displayText = _formatResult(_result);
+            break;
+          case '-':
+            _result = _num1 - _num2;
+            _displayText = _formatResult(_result);
+            break;
+          case '*':
+            _result = _num1 * _num2;
+            _displayText = _formatResult(_result);
+            break;
+          case '/':
+            if (_num2 != 0) {
+              _result = _num1 / _num2;
+              _displayText = _formatResult(_result);
+            } else {
+              _displayText = 'Error';
+            }
+            break;
+        }
+      } else {
+        _num2 = double.parse(_displayText);
+        switch (_operator) {
+          case '+':
+            _result = _num1 + _num2;
+            _displayText = _formatResult(_result);
+            break;
+          case '-':
+            _result = _num1 - _num2;
+            _displayText = _formatResult(_result);
+            break;
+          case '*':
+            _result = _num1 * _num2;
+            _displayText = _formatResult(_result);
+            break;
+          case '/':
+            if (_num2 != 0) {
+              _result = _num1 / _num2;
+              _displayText = _formatResult(_result);
+            } else {
+              _displayText = 'Error';
+            }
+            break;
+        }
       }
 
-      operator = '';
-      wipeDisplay = true;
+      _memoryOperator = _operator == '' ? _memoryOperator : _operator;
+      _operator = '';
+      _usedOperator = false;
+      _newNumber = true;
     });
   }
 
   void _toggleSign() {
     setState(() {
-      if (displayText == '0') {
+      if (_displayText == '0') {
+        return;
+      } else if (_displayText == 'Error') {
         return;
       }
-      result = (double.parse(displayText) * -1);
-      displayText = _formatResult(result);
+      _result = (double.parse(_displayText) * -1);
+      _displayText = _formatResult(_result);
     });
   }
 
   void _percentage() {
     setState(() {
-      if (displayText == '0') {
+      if (_displayText == '0') {
         return;
-      } else if (displayText == 'Error') {
+      } else if (_displayText == 'Error') {
         return;
       }
-      displayText = (double.parse(displayText) / 100).toString();
+      _displayText = (double.parse(_displayText) / 100).toString();
     });
   }
 
   void _inputDecimal() {
     setState(() {
-      if (wipeDisplay && displayText != '0') {
-        displayText = '0.';
-        wipeDisplay = false;
+      if (_newNumber && _displayText != '0') {
+        _displayText = '0.';
+        _newNumber = false;
       }
-      if (!displayText.contains('.')) {
-        displayText += '.';
+      if (!_displayText.contains('.')) {
+        _displayText += '.';
       }
     });
   }
 
+  void _deleteLastDigit() {
+    if (_displayText == 'Error') {
+      return;
+    }
+    if (!_newNumber) {
+      setState(() {
+        _displayText = _displayText.length > 1
+            ? _displayText.substring(0, _displayText.length - 1)
+            : '0';
+      });
+    }
+  }
+
   String _formatResult(double result) {
-    if (result % 1 == 0) {
-      return result.toInt().toString();
+    if (_result % 1 == 0) {
+      return _result.toInt().toString();
     } else {
-      return result.toString();
+      return _result.toString();
     }
   }
 
@@ -153,12 +203,11 @@ class _CalculadoraState extends State<Calculadora> {
       body: Column(
         children: <Widget>[
           Container(
-            height: 300,
+            height: MediaQuery.of(context).size.height * 0.35,
             alignment: Alignment.bottomRight,
             child: Text(
-              displayText,
+              _displayText,
               maxLines: 1,
-              softWrap: false,
               style: const TextStyle(
                 fontSize: 64,
                 color: Colors.white,
@@ -171,6 +220,22 @@ class _CalculadoraState extends State<Calculadora> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: TextButton(
+                          onPressed: _deleteLastDigit,
+                          child: const Icon(
+                            Icons.backspace,
+                            size: 40,
+                            color: Color.fromARGB(255, 160, 160, 160),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
