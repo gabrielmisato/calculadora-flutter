@@ -147,8 +147,9 @@ class _CalculadoraState extends State<Calculadora> {
       } else if (_displayText == 'Error') {
         return;
       }
-      _result = (double.parse(_displayText) * -1);
+      _result = (double.parse(_displayText.replaceAll(',', '.')) * -1);
       _displayText = _formatResult(_result);
+      _memoryOperator = '';
     });
   }
 
@@ -159,7 +160,9 @@ class _CalculadoraState extends State<Calculadora> {
       } else if (_displayText == 'Error') {
         return;
       }
-      _displayText = (double.parse(_displayText) / 100).toString();
+      _result = (double.parse(_displayText.replaceAll(',', '.')) / 100);
+      _displayText = _formatResult(_result);
+      _memoryOperator = '';
     });
   }
 
