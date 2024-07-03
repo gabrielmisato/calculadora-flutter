@@ -180,13 +180,11 @@ class _CalculadoraState extends State<Calculadora> {
     if (_displayText == 'Error') {
       return;
     }
-    if (!_newNumber) {
-      setState(() {
-        _displayText = _displayText.length > 1
-            ? _displayText.substring(0, _displayText.length - 1)
-            : '0';
-      });
-    }
+    setState(() {
+      _displayText = _displayText.length > 1
+          ? _displayText.substring(0, _displayText.length - 1)
+          : '0';
+    });
   }
 
   String _formatResult(double result) {
