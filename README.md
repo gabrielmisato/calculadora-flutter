@@ -17,7 +17,9 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Versão utilizada
 Flutter is already up to date on channel stable
-Flutter 3.22.2 • channel stable • https://github.com/flutter/flutter.git
-Framework • revision 761747bfc5 (2 weeks ago) • 2024-06-05 22:15:13 +0200
-Engine • revision edd8546116
-Tools • Dart 3.4.3 • DevTools 2.34.3
+
+Flutter 3.22.2 
+
+Dart 3.4.3 
+
+DevTools 2.34.3
